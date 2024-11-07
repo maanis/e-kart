@@ -22,7 +22,7 @@ module.exports.createUser = async function (req, res) {
                             password: hash,
                         });
                         res.cookie('token', tokenGenerator(newUser))
-                        res.send('user created successfully')
+                        res.redirect('shop');
                     }
                     else {
                         req.flash('error', 'Please fill all fields')
@@ -58,8 +58,8 @@ module.exports.loginUser = async function (req, res) {
 }
 
 module.exports.logoutUser = function (req, res) {
-    res.clearCookie('token');
-    res.send('user logged out successfully');
+    res.cookie('token', '');
+    res.redirect('/')
 }
 
 // module.exports = { createUser };
