@@ -5,6 +5,8 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var db = require('./configs/mongoose-connection');
+var session = require('express-session');
+var flash = require('connect-flash');
 
 var indexRouter = require('./routes/index');
 var productsRouter = require('./routes/products');
@@ -17,6 +19,14 @@ var app = express();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+
+app.use(session({
+  resave: false,
+  saveUninitialized: true,
+  secret: process.env.SESSION_SECRET,
+}))
+
+app.use(flash())
 
 app.use(logger('dev'));
 app.use(express.json());
