@@ -19,18 +19,13 @@ if (process.env.NODE_ENV === `development`) {
         res.send(admin)
     });
 }
-
 router.get('/', function (req, res) {
     res.send('hey from owners router');
 });
-
 
 router.get('/create-products', isLoggedIn, isAdmin, function (req, res) {
     let success = 1
     res.render('createproducts', { success, header: req.login })
 });
-
-
-
 
 module.exports = router;

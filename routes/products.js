@@ -8,8 +8,6 @@ const ownerModel = require('../models/owner-model');
 const { isAdmin } = require('../middlewares/isAdmin');
 const userModel = require('../models/user-model');
 
-
-
 router.get('/', function (req, res) {
   res.send('hey from products router');
 });
@@ -31,6 +29,5 @@ router.post('/create', isLoggedIn, upload.single('image'), async (req, res) => {
   await admin.save();
   res.redirect('/users/shop')
 })
-
 
 module.exports = router;
