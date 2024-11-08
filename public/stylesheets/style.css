@@ -1,8 +1,15 @@
 body {
-  padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
 a {
   color: #00B7FF;
+}
+
+.box-b, .box-a{
+  height: calc(100vh - 112px);
+}
+
+.box-b::-webkit-scrollbar{
+display: none;
 }

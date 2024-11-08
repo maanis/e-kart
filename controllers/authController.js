@@ -50,7 +50,11 @@ module.exports.loginUser = async function (req, res) {
     }
     else {
         bcrypt.compare(password, user.password, function (err, result) {
-            if (!result) return res.status(400).send('Invalid Password');
+            if (!result) {
+                req.flash('error', 'Invalid Password')
+                res.redirect('/')
+                return
+            };
             res.cookie('token', tokenGenerator(user));
             res.redirect('shop')
         })

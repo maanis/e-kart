@@ -1,7 +1,10 @@
 var express = require('express');
 var router = express.Router();
 const db = require('../configs/mongoose-connection');
-const ownerModel = require('../models/owner-model')
+const ownerModel = require('../models/owner-model');
+const { isLoggedIn } = require('../middlewares/isLoggedIn');
+const upload = require('../configs/multer');
+const { isAdmin } = require('../middlewares/isAdmin');
 
 if (process.env.NODE_ENV === `development`) {
     router.post('/create', async function (req, res) {
@@ -19,6 +22,12 @@ if (process.env.NODE_ENV === `development`) {
 
 router.get('/', function (req, res) {
     res.send('hey from owners router');
+});
+
+
+router.get('/create-products', isLoggedIn, isAdmin, function (req, res) {
+    let success = 1
+    res.render('createproducts', { success, header: req.login })
 });
 
 

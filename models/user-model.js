@@ -13,6 +13,10 @@ const userSchema = mongoose.Schema({
     cart: {
         type: Array,
         default: []
+    },
+    isAdmin: {
+        type: Boolean,
+        default: false
     }
 })
 

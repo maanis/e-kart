@@ -5,12 +5,12 @@ const productSchema = mongoose.Schema({
     name: String,
     price: Number,
     discount: {
-        type: number,
+        type: Number,
         default: 0
     },
-    bgcolor: string,
-    panelcolor: string,
-    textcolor: string,
+    bgcolor: String,
+    panelcolor: String,
+    textcolor: String,
 })
 
 module.exports = mongoose.model('product', productSchema);

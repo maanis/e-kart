@@ -1,13 +1,10 @@
 require('dotenv').config();
 var express = require('express');
 var router = express.Router();
-const db = require('../configs/mongoose-connection');
-const userModel = require('../models/user-model');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const tokenGenerator = require('../utils/jwtToken');
 const { createUser, loginUser, logoutUser } = require('../controllers/authController');
 const { isLoggedIn } = require('../middlewares/isLoggedIn');
+const productModel = require('../models/product-model');
+const { isAdmin } = require('../middlewares/isAdmin');
 
 router.get('/', function (req, res) {
   res.send('hey from users router');
@@ -15,17 +12,20 @@ router.get('/', function (req, res) {
 
 router.post('/register', createUser);
 
-router.post('/login', loginUser);
 
 router.get('/logout', logoutUser);
 
 
 
-router.get('/shop', function (req, res) {
-  let products = []
-  let error = false
-  res.render('shop', { products, error });
+router.get('/shop', isLoggedIn, async function (req, res) {
+  let products = await productModel.find()
+  let error = req.flash('error')
+  let header = req.login
+  res.render('shop', { products, error, header, isAdmin: req.user.isAdmin });
+
 });
+
+router.post('/login', loginUser);
 
 
 

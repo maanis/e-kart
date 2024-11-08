@@ -5,7 +5,12 @@ const { isLoggedIn } = require('../middlewares/isLoggedIn');
 
 router.get('/', function (req, res) {
   let error = req.flash('error');
-  res.render('index', { error });
+  let header = false
+  res.render('index', { error, header });
+});
+
+router.get('/cart', function (req, res) {
+  res.render('cart')
 });
 
 
