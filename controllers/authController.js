@@ -1,4 +1,5 @@
 const userModel = require('../models/user-model');
+const ownerModel = require('../models/owner-model');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const tokenGenerator = require('../utils/jwtToken');
@@ -38,28 +39,80 @@ module.exports.createUser = async function (req, res) {
 
 }
 
-module.exports.loginUser = async function (req, res) {
-    let { email, password } = req.body;
-    let user = await userModel.findOne({ email });
-    if (!user) return res.status(404).send('User not found');
 
-    if (email && password === '') {
-        req.flash('error', 'Please provide the login details')
-        res.redirect('/')
-        return
+// module.exports.loginUser = async (req, res) => {
+//     const { email, password, isAdmin } = req.body;
+
+//     try {
+//         let user;
+//         if (isAdmin) {
+//             user = await ownerModel.findOne({ email });
+//             bcrypt.compare(password, user.password, function (err, result) {
+//                 if (!result) {
+//                     req.flash('error', 'Invalid Password')
+//                     res.redirect('/')
+//                     return
+//                 };
+//                 res.cookie('token', tokenGenerator(user));
+//                 res.redirect('/owners/create-products')
+//             })
+//         } else {
+//             user = await userModel.findOne({ email });
+//             bcrypt.compare(password, user.password, function (err, result) {
+//                 if (!result) {
+//                     req.flash('error', 'Invalid Password')
+//                     res.redirect('/')
+//                     return
+//                 };
+//                 res.cookie('token', tokenGenerator(user));
+//                 res.redirect('shop')
+//                 console.log(user)
+//                 console.log(isAdmin)
+//             })
+//         }
+
+//     } catch (error) {
+//         console.error(error);
+//         res.status(500).send('Server error');
+//     }
+// };
+
+module.exports.loginUser = async (req, res) => {
+    const { email, password, isAdmin } = req.body;
+
+    try {
+        let user;
+        if (isAdmin) {
+            user = await ownerModel.findOne({ email });
+            bcrypt.compare(password, user.password, function (err, result) {
+                if (!result) {
+                    req.flash('error', 'Invalid Password')
+                    res.redirect('/')
+                    return
+                };
+                const token = jwt.sign({ email, id: user._id, isAdmin: user.isAdmin }, process.env.SECRET_KEY)
+                res.cookie('token', token)
+                res.redirect('shop')
+            })
+        } else {
+            user = await userModel.findOne({ email });
+            bcrypt.compare(password, user.password, function (err, result) {
+                if (!result) {
+                    req.flash('error', 'Invalid Password')
+                    res.redirect('/')
+                    return
+                };
+                res.cookie('token', tokenGenerator(user));
+                res.redirect('shop')
+            })
+        }
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Server error');
     }
-    else {
-        bcrypt.compare(password, user.password, function (err, result) {
-            if (!result) {
-                req.flash('error', 'Invalid Password')
-                res.redirect('/')
-                return
-            };
-            res.cookie('token', tokenGenerator(user));
-            res.redirect('shop')
-        })
-    }
-}
+};
+
 
 module.exports.logoutUser = function (req, res) {
     res.cookie('token', '');

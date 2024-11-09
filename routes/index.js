@@ -13,6 +13,10 @@ router.get('/cart', function (req, res) {
   res.render('cart')
 });
 
+router.get('/cart/:id', function (req, res) {
+  
+});
+
 
 
 

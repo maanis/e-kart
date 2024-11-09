@@ -13,7 +13,7 @@ router.get('/', function (req, res) {
 });
 
 router.post('/create', isLoggedIn, upload.single('image'), async (req, res) => {
-  let admin = await userModel.findOne({ email: req.user.email });
+  let admin = await ownerModel.findOne({ email: req.user.email });
   const { name, price, discount, bgcolor, panelcolor, textcolor } = req.body
   let product = await productModel.create({
     image: req.file.filename,
@@ -24,8 +24,8 @@ router.post('/create', isLoggedIn, upload.single('image'), async (req, res) => {
     panelcolor,
     textcolor,
   })
-  console.log(req.user)
-  admin.cart.push(product._id);
+  // console.log(req.user)
+  admin.products.push(product._id);
   await admin.save();
   req.flash('success', 'Product created successfully');
   res.redirect('/owners/create-products')
