@@ -22,7 +22,7 @@ router.get('/', function (req, res) {
 });
 
 router.get('/create-products', isLoggedIn, isAdmin, function (req, res) {
-    let success = 1
+    let success = req.flash('success');
     res.render('createproducts', { success, header: req.login })
 });
 

@@ -27,7 +27,8 @@ router.post('/create', isLoggedIn, upload.single('image'), async (req, res) => {
   console.log(req.user)
   admin.cart.push(product._id);
   await admin.save();
-  res.redirect('/users/shop')
+  req.flash('success', 'Product created successfully');
+  res.redirect('/owners/create-products')
 })
 
 module.exports = router;
