@@ -9,6 +9,7 @@
         integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="/stylesheets/style.css">
+
     <title>Document</title>
 </head>
 
@@ -66,10 +67,18 @@
                                             <h4>₹ <%= product.price %>
                                             </h4>
                                         </div>
-                                        <a class="w-7 h-7 flex items-center justify-center rounded-full bg-white"
-                                            href="/cart/<%=product._id %>">
-                                            <i class="fa-solid fa-plus text-black"></i>
-                                        </a>
+                                        <% if (!isAdmin) { %>
+                                            <a class="w-7 h-7 flex items-center justify-center rounded-full bg-white"
+                                                href="/cart/<%=product._id %>">
+                                                <i class="fa-solid fa-plus text-black"></i>
+                                            </a>
+                                            <% } %>
+                                                <% if (isAdmin) { %>
+                                                    <a class="ml-auto" href="/edit/<%= product._id %>"><button><i
+                                                                class="fa-duotone fa-solid fa-pen"></i></button></a>
+                                                    <a class="ml-5" href="/delete/<%= product._id %>"><button><i
+                                                                class="fa-solid fa-trash"></i></button></a>
+                                                    <% } %>
                                     </div>
                                 </div>
                                 <% }) %>

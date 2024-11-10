@@ -31,4 +31,18 @@ router.post('/create', isLoggedIn, upload.single('image'), async (req, res) => {
   res.redirect('/owners/create-products')
 })
 
+router.post('/update/:id', isLoggedIn, upload.single('image'), async (req, res) => {
+  let { name, price, discount } = req.body
+  let product = await productModel.findByIdAndUpdate(req.params.id, { name, price, discount }, { new: true })
+  // console.log(req.file)
+  if (req.file) {
+    let image = req.file.filename
+    product.image = image
+    await product.save()
+  }
+  res.redirect('/users/shop')
+})
+
+
+
 module.exports = router;
