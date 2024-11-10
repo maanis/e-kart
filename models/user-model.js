@@ -10,10 +10,12 @@ const userSchema = mongoose.Schema({
         type: Array,
         default: []
     },
-    cart: {
-        type: Array,
-        default: []
-    },
+    cart: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'product',
+        }
+    ],
 })
 
 module.exports = mongoose.model('user', userSchema);

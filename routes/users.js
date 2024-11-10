@@ -20,6 +20,7 @@ router.get('/logout', logoutUser);
 router.get('/shop', isLoggedIn, async function (req, res) {
   let products = await productModel.find()
   let error = req.flash('error')
+
   let header = req.cookies.token
   let isAdmin = req.user.isAdmin
   res.render('shop', { products, error, header, isAdmin });
