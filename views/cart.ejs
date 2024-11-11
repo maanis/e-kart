@@ -1,84 +1,95 @@
 <%- include('./partials/header') %>
     <div class="container mx-auto p-6 pt-14">
 
-        <!-- Cart Items List -->
-        <% if (cart.length> 0) { %>
-            <% cart.forEach((cart)=> { %>
-                <div class="bg-[#ecebeb] shadow-sm rounded-lg p-4 m-3 divide-y divide-gray-200">
+        <% if(message.length>0){ %>
+            <div class="absolute top-5 left-1/2 -translate-x-1/2 -translate-y-1/2 p-3 rounded-md bg-blue-500">
+                <span class="inline-block mt-1 mb-1 text-white">
+                    <%= message %>
+                </span>
+            </div>
+            <% } %>
 
-                    <!-- Cart Item -->
-                    <div class="flex items-center py-4">
-                        <img src="/images/uploads/<%= cart.image %>" alt="Product Image"
-                            class="w-20 h-20 object-cover rounded-md">
+                <!-- Cart Items List -->
+                <% if (cart.length> 0) { %>
+                    <% cart.forEach((cart)=> { %>
+                        <div class="bg-[#ecebeb] shadow-sm rounded-lg p-4 m-3 divide-y divide-gray-200">
 
-                        <div class="ml-4 flex-grow">
-                            <h2 class="text-lg font-medium text-gray-800">
-                                <%= cart.name %>
-                            </h2>
-                            <p class="text-gray-600">Price: <span class="font-semibold text-gray-900">$<%= cart.price %>
-                                </span>
-                            </p>
-                            <p class="text-green-500 text-sm">Discount: <%= cart.discount %>
-                            </p>
-                            <p class="text-gray-700 font-medium">Discounted Price: $<%= cart.price %>
-                            </p>
-                        </div>
+                            <!-- Cart Item -->
+                            <div class="flex items-center py-4">
+                                <img src="/images/uploads/<%= cart.productId.image %>" alt="Product Image"
+                                    class="w-20 h-20 object-cover rounded-md">
 
-                        <div class="flex items-center space-x-4">
-                            <!-- Quantity Controls -->
-                            <div class="flex items-center">
-                                <button class="text-gray-500 hover:text-gray-700 p-1">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M15 12H9m6 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                    </svg>
-                                </button>
-                                <span class="px-2 text-gray-700">1</span>
-                                <button class="text-gray-500 hover:text-gray-700 p-1">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M12 4v16m8-8H4"></path>
-                                    </svg>
-                                </button>
-                            </div>
-
-                            <!-- Remove Button -->
-                            <button class="text-red-500 hover:text-red-700">
-                                Remove
-                            </button>
-                        </div>
-                    </div>
-                    <!-- Repeat Cart Item as needed -->
-
-                </div>
-                <% }) %>
-                    <% } else { %>
-                        <h2>Cart is empty</h2>
-
-                        <%} %>
-
-                            <% if (cart.length> 0) { %>
-                                <div class="mt-6 bg-white shadow-sm rounded-lg p-4">
-                                    <h2 class="text-xl font-semibold text-gray-800">Order Summary</h2>
-                                    <div class="flex justify-between mt-2">
-                                        <p class="text-gray-600">Subtotal</p>
-                                        <p class="text-gray-800 font-semibold">$79.98</p>
-                                    </div>
-                                    <div class="flex justify-between mt-1">
-                                        <p class="text-gray-600">Discount</p>
-                                        <p class="text-green-500">-$20.00</p>
-                                    </div>
-                                    <div class="flex justify-between mt-1">
-                                        <p class="text-gray-600">Total</p>
-                                        <p class="text-gray-800 font-bold">$59.98</p>
-                                    </div>
-                                    <button
-                                        class="mt-4 w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 transition duration-200">Proceed
-                                        to Checkout</button>
+                                <div class="ml-4 flex-grow">
+                                    <h2 class="text-lg font-medium text-gray-800">
+                                        <%= cart.productId.name %>
+                                    </h2>
+                                    <p class="text-gray-600">Price: <span class="font-semibold text-gray-900">$<%=
+                                                cart.productId.price %>
+                                        </span>
+                                    </p>
+                                    <p class="text-green-500 text-sm">Discount: <%= cart.productId.discount %>
+                                    </p>
+                                    <p class="text-gray-700 font-medium">Discounted Price: $<%= cart.productId.price %>
+                                    </p>
                                 </div>
-                                <% } %>
+
+                                <div class="flex items-center space-x-4">
+                                    <!-- Quantity Controls -->
+                                    <div class="flex items-center">
+                                        <a href="less/<%= cart._id %>">
+                                            <button
+                                                class="text-gray-300 flex justify-center items-center rounded-full h-6 w-6 bg-zinc-900 hover:text-gray-900 transition-all hover:bg-zinc-400 p-1">
+                                                <i class="fa-solid fa-minus"></i>
+                                            </button>
+                                        </a>
+                                        <span class="px-2 text-gray-700">
+                                            <%= cart.quantity %>
+                                        </span>
+                                        <a href="add/<%= cart._id %>">
+                                            <button
+                                                class="text-gray-300 flex justify-center items-center rounded-full h-6 w-6 bg-zinc-900 hover:text-gray-900 transition-all hover:bg-zinc-400 p-1">
+                                                <i class="fa-solid fa-plus"></i>
+                                            </button>
+                                        </a>
+                                    </div>
+
+                                    <!-- Remove Button -->
+                                    <a href="remove/<%= cart._id %>">
+                                        <button class="text-red-500 hover:text-red-700">
+                                            Remove
+                                        </button>
+                                    </a>
+                                </div>
+                            </div>
+                            <!-- Repeat Cart Item as needed -->
+
+                        </div>
+                        <% }) %>
+                            <% } else { %>
+                                <h2>Cart is empty</h2>
+
+                                <%} %>
+
+                                    <% if (cart.length> 0) { %>
+                                        <div class="mt-6 bg-white shadow-sm rounded-lg p-4">
+                                            <h2 class="text-xl font-semibold text-gray-800">Order Summary</h2>
+                                            <div class="flex justify-between mt-2">
+                                                <p class="text-gray-600">Subtotal</p>
+                                                <p class="text-gray-800 font-semibold">$79.98</p>
+                                            </div>
+                                            <div class="flex justify-between mt-1">
+                                                <p class="text-gray-600">Discount</p>
+                                                <p class="text-green-500">-$20.00</p>
+                                            </div>
+                                            <div class="flex justify-between mt-1">
+                                                <p class="text-gray-600">Total</p>
+                                                <p class="text-gray-800 font-bold">$59.98</p>
+                                            </div>
+                                            <button
+                                                class="mt-4 w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 transition duration-200">Proceed
+                                                to Checkout</button>
+                                        </div>
+                                        <% } %>
 
 
     </div>
